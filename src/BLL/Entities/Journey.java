@@ -18,6 +18,7 @@ public class Journey implements IJourney {
 
         this.bus = bus;
         this.driver = driver;
+        driver.SetJourney(this);
 
         complet = false;
     }

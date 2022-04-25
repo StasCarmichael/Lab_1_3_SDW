@@ -71,6 +71,6 @@ public class Driver implements IDriver {
 
     @Override
     public IJourney[] GetAllJourney() {
-        return (IJourney[]) journeys.toArray();
+        return journeys.toArray(new Journey[journeys.size()]);
     }
 }

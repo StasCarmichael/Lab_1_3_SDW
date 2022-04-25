@@ -19,7 +19,7 @@ public class Dispatcher implements IDispatcher {
 
     @Override
     public IJourney[] GetAllJourney() {
-        return (IJourney[]) journeys.toArray();
+        return journeys.toArray(new Journey[journeys.size()]);
     }
 
     @Override

@@ -1,6 +1,7 @@
 package BLL.Entities;
 
 import BLL.Interface.*;
+
 import java.util.LinkedList;
 
 public class Bus implements IBus {
@@ -32,7 +33,7 @@ public class Bus implements IBus {
 
     @Override
     public String[] GetStateInfo() {
-        return (String[]) stateInfo.toArray();
+        return stateInfo.toArray(new String[0]);
     }
 
 
@@ -43,7 +44,7 @@ public class Bus implements IBus {
 
     @Override
     public String[] GetRepairRequest() {
-        return (String[]) repairRequest.toArray();
+        return repairRequest.toArray(new String[0]);
     }
 
     @Override
