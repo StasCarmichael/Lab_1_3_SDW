@@ -7,7 +7,7 @@ public interface IBus {
 
     void SetStateInfo(String info);
 
-    String[] SetStateInfo();
+    String[] GetStateInfo();
 
 
     void SetRepairRequest(String message);

@@ -10,8 +10,14 @@ public interface IDriver {
     void SetDriverRank(String rank);
 
 
-    boolean SetRepairRequest(IDriver driver, String message);
+    boolean SetRepairRequest(IBus bus, String message);
 
+    boolean SetStateInfo(IBus bus, String message);
+
+    boolean JourneyComplete(int journeyId);
+
+
+    void SetJourney(IJourney journey);
 
     IJourney[] GetAllJourney();
 }
