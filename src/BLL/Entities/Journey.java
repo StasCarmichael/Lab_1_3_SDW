@@ -43,6 +43,7 @@ public class Journey implements IJourney {
 
     @Override
     public void SetDriver(IDriver driver) {
+        this.driver.RemoveJourney(this);
         this.driver = driver;
         driver.SetJourney(this);
     }

@@ -19,5 +19,7 @@ public interface IDriver {
 
     void SetJourney(IJourney journey);
 
+    boolean RemoveJourney(IJourney journey);
+
     IJourney[] GetAllJourney();
 }

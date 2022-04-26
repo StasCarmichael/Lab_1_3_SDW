@@ -30,7 +30,6 @@ public class Driver implements IDriver {
     public String GetDriverRank() {
         return driverRank;
     }
-
     @Override
     public void SetDriverRank(String rank) {
         driverRank = rank;
@@ -43,7 +42,6 @@ public class Driver implements IDriver {
 
         return  true;
     }
-
     @Override
     public boolean SetStateInfo(IBus bus, String message) {
         bus.SetStateInfo(message);
@@ -67,6 +65,9 @@ public class Driver implements IDriver {
     @Override
     public void SetJourney(IJourney journey) {
         journeys.add(journey);
+    }
+    public boolean RemoveJourney(IJourney journey) {
+        return journeys.remove(journey);
     }
 
     @Override

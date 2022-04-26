@@ -30,7 +30,6 @@ public class Bus implements IBus {
     public void SetStateInfo(String info) {
         stateInfo.add(info);
     }
-
     @Override
     public String[] GetStateInfo() {
         return stateInfo.toArray(new String[0]);
@@ -41,12 +40,10 @@ public class Bus implements IBus {
     public void SetRepairRequest(String message) {
         repairRequest.add(message);
     }
-
     @Override
     public String[] GetRepairRequest() {
         return repairRequest.toArray(new String[0]);
     }
-
     @Override
     public void Repair() {
         repairRequest.clear();

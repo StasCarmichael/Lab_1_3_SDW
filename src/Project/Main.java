@@ -23,34 +23,71 @@ public class Main {
         //Print data first time
         printDispatcher(dispatcher);
 
-        System.out.println("%%%%%%%%% ADD MESSAGE %%%%%%%%%");
 
-        var data = Predicter(dispatcher ,val -> val.GetId() == 1).getFirst();
-        data.GetInfoAboutDriver().SetRepairRequest(data.GetInfoAboutBus() , "Трансмісія працює з перебоями");
-        data.GetInfoAboutDriver().SetStateInfo(data.GetInfoAboutBus() , "Все працює коректно, рейс успішно завершено");
+        System.out.println("%%%%%%%%% ADD NEW MESSAGE IN PROGRAM %%%%%%%%%");
 
-        data = Predicter(dispatcher ,val -> val.GetId() == 0).getFirst();
-        data.GetInfoAboutDriver().SetStateInfo(data.GetInfoAboutBus() , "Рейс успішно виконано можливо потбірно замінити масло");
+        var data = Predicter(dispatcher, val -> val.GetId() == 1).getFirst();
+        data.GetInfoAboutDriver().SetRepairRequest(data.GetInfoAboutBus(), "Трансмісія працює з перебоями");
+        data.GetInfoAboutDriver().SetStateInfo(data.GetInfoAboutBus(), "Все працює коректно, рейс успішно завершено");
 
+        System.out.println("Водій додаємо заявку на ремонт, та повідомляє про стан мшини");
+
+        data = Predicter(dispatcher, val -> val.GetId() == 0).getFirst();
+        data.GetInfoAboutDriver().SetStateInfo(data.GetInfoAboutBus(), "Рейс успішно виконано можливо потбірно замінити масло");
+        //Print data second time
+        printDispatcher(dispatcher);
+
+
+        System.out.println("%%%%%%%%% CHANGE DRIVER and ADD NEW MESSAGE %%%%%%%%%");
+
+        var driver3 = new Driver("Victor", "profecional");
+
+        dispatcher.ChangeDriver(1, driver3);
+        data = Predicter(dispatcher, val -> val.GetId() == 1).getFirst();
+        data.GetInfoAboutDriver().JourneyComplete(data.GetId());
+        data.GetInfoAboutDriver().SetStateInfo(data.GetInfoAboutBus(), "Рейс повністю виконана");
+        data.GetInfoAboutDriver().SetRepairRequest(data.GetInfoAboutBus(), "Непрацює права верхня дверка");
+        data = Predicter(dispatcher, val -> val.GetId() == 2).getFirst();
+        data.GetInfoAboutDriver().SetRepairRequest(data.GetInfoAboutBus(), "Проблеми з трансмісією");
+
+        System.out.println("Диспетчер замінює, водія, також новий водій виконує рейс і додає стан про машину");
+        //Print data thirt time
+        printDispatcher(dispatcher);
+
+
+        System.out.println("%%%%%%%%% ADD new JOURNEY, CHANGE DRIVER and finish JOURNEY %%%%%%%%%");
+
+        var bus3 = new Bus("Mersedes");
+        System.out.println("Додаємо новий рейс");
+        dispatcher.AddJourney(driver3, bus3);
+        dispatcher.ChangeDriver(0, driver2);
+        data = Predicter(dispatcher, val -> val.GetId() == 0).getFirst();
+        data.GetInfoAboutDriver().JourneyComplete(data.GetId());
+        data.GetInfoAboutDriver().SetStateInfo(data.GetInfoAboutBus(), "РЕЙС завершено");
+        data.GetInfoAboutDriver().SetRepairRequest(data.GetInfoAboutBus(), "Непрацює скла очистник");
+
+        System.out.println("Поремонтував машину яка виконує рейс номер 2");
+        data = Predicter(dispatcher, val -> val.GetId() == 2).getFirst();
+        data.GetInfoAboutBus().Repair();
+        //Print data fourth time
         printDispatcher(dispatcher);
     }
 
 
-
-    private  static LinkedList<IJourney> Predicter(IDispatcher dispatcher , Predicate<IJourney> journeyPredicate){
+    private static LinkedList<IJourney> Predicter(IDispatcher dispatcher, Predicate<IJourney> journeyPredicate) {
         var res = new LinkedList<IJourney>();
 
-        for (var data : dispatcher.GetAllJourney() ) {
-            if(journeyPredicate.test(data)){
+        for (var data : dispatcher.GetAllJourney()) {
+            if (journeyPredicate.test(data)) {
                 res.add(data);
             }
         }
 
-        return  res;
+        return res;
     }
 
 
-    private  static  void  printDispatcher(IDispatcher dispatcher){
+    private static void printDispatcher(IDispatcher dispatcher) {
         var data = dispatcher.GetAllJourney();
         for (int i = 0; i < data.length; i++) {
             printJourney(data[i]);
