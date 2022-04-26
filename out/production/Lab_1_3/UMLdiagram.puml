@@ -1,27 +1,141 @@
 @startuml
-'https://plantuml.com/class-diagram
 
-abstract class AbstractList
-abstract AbstractCollection
-interface List
-interface Collection
+interface IBus {
+     String GetModelName();
 
-List <|-- AbstractList
-Collection <|-- AbstractCollection
+     void SetStateInfo(String info);
+     String[] GetStateInfo();
 
-Collection <|- List
-AbstractCollection <|- AbstractList
-AbstractList <|-- ArrayList
-
-class ArrayList {
-Object[] elementData
-size()
+     void SetRepairRequest(String message);
+     String[] GetRepairRequest();
+     void Repair();
 }
 
-enum TimeUnit {
-DAYS
-HOURS
-MINUTES
+interface IDriver {
+    String GetName();
+
+    String GetDriverRank();
+    void SetDriverRank(String rank);
+
+    boolean SetRepairRequest(IBus bus, String message);
+    boolean SetStateInfo(IBus bus, String message);
+
+    boolean JourneyComplete(int journeyId);
+
+    void SetJourney(IJourney journey);
+    boolean RemoveJourney(IJourney journey);
+    IJourney[] GetAllJourney();
 }
+
+interface IDispatcher {
+    void AddJourney(IDriver driver , IBus bus);
+    IJourney[] GetAllJourney();
+
+    boolean ChangeDriver(int journeyId, IDriver driver );
+}
+
+ interface IJourney {
+    int GetId();
+
+    void SetBus(IBus bus);
+    IBus GetInfoAboutBus();
+
+    void SetDriver(IDriver driver);
+    IDriver GetInfoAboutDriver();
+
+    boolean JourneyСomplet();
+    boolean IsCompleted();
+}
+
+class Bus {
+     - final String modelName;
+
+     - LinkedList<String> repairRequest;
+     - LinkedList<String> stateInfo;
+
+    + Bus(String modelName) ;
+
+    + String GetModelName();
+
+    + void SetStateInfo(String info);
+    + String[] GetStateInfo();
+
+    + void SetRepairRequest(String message);
+    + String[] GetRepairRequest();
+    + void Repair();
+}
+
+class Driver {
+    - final String name;
+    - String driverRank;
+    - final LinkedList<IJourney> journeys;
+
+    + Driver(String name, String driverRank);
+
+
+    + String GetName();
+
+    + String GetDriverRank();
+    + void SetDriverRank(String rank);
+
+    + boolean SetRepairRequest(IBus bus, String message);
+    + boolean SetStateInfo(IBus bus, String message);
+
+    + boolean JourneyComplete(int journeyId);
+
+    + void SetJourney(IJourney journey);
+    + boolean RemoveJourney(IJourney journey);
+    + IJourney[] GetAllJourney();
+}
+
+ class Journey {
+     - static int startId = 0;
+     - final int id;
+
+     - IBus bus;
+     - IDriver driver;
+
+     - boolean complet;
+
+     + Journey(IBus bus, IDriver driver);
+
+     + int GetId();
+
+     + void SetBus(IBus bus);
+     + IBus GetInfoAboutBus();
+
+     + void SetDriver(IDriver driver);
+     + IDriver GetInfoAboutDriver();
+
+     + boolean JourneyСomplet();
+     + boolean IsCompleted();
+}
+
+class Dispatcher {
+    - final LinkedList<IJourney> journeys;
+
+    + Dispatcher() ;
+
+    + void AddJourney(IDriver driver , IBus bus);
+    + IJourney[] GetAllJourney();
+
+    + boolean ChangeDriver(int journeyId, IDriver driver );
+}
+
+Bus <|-- IBus
+Driver <|-- IDriver
+Journey <|-- IJourney
+Dispatcher <|-- IDispatcher
+
+
+Dispatcher o-- IJourney
+Dispatcher <.. IBus
+Dispatcher <.. IDriver
+
+Journey o-- IBus
+Journey o-- IDriver
+
+Driver o-- IJourney
+Driver <.. IBus
 
 @enduml
